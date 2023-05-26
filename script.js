@@ -1,3 +1,4 @@
+// creates a 'todos' object which belongs to a project
 class todos {
     constructor(title, description, due_date) {
         this.title = title;
@@ -6,6 +7,7 @@ class todos {
     }
 }
 
+// creates a project of which 0 or more 'todos' belong to
 class projects {
     constructor(name) {
         this.name = name
@@ -13,10 +15,10 @@ class projects {
     }
 }
 
-let default_project = new projects('default')
+const default_project = new projects('default');
 
-all_projects = []
-all_projects.push(default_project)
+all_projects = [];
+all_projects.push(default_project);
 
 all_projects.forEach(project => {
     var element = document.createElement('div')
@@ -24,10 +26,17 @@ all_projects.forEach(project => {
     document.body.appendChild(element)
 });
 
-let newProjButton = document.getElementById('new-project-button')
+// let newProjButton = document.getElementById('new-project-button')
 
-let project_form = document.getElementById('project-form')
+const project_form = document.getElementById('project-form');
+const project_input = document.getElementById('project-input');
 
 function showForm() {
     project_form.style.visibility = 'visible';
 }
+
+document.getElementById('submit-project').addEventListener("click", function(event) {
+    event.preventDefault();
+    project_form.style.visibility = 'hidden';
+    console.log(project_input.value);
+});
