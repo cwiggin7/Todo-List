@@ -40,7 +40,10 @@ function setProjects(projects) {
 
 // Check 'visited' in localStorage. If exists, user is returning; otherwise, they're a first-time visitor.
 if (localStorage.getItem('visited')) {
-
+    let projects = getProjects();
+    projects.forEach(project => {
+        createProjectBlock(project.name);
+    });
 } else {
     // For first-time visitors, create a 'default' project and store in localStorage.
     const default_project = new project('default');
@@ -54,6 +57,9 @@ document.getElementById('create-project-btn').addEventListener('click', (event) 
     event.preventDefault();
     project_form.style.visibility = 'hidden';
     createProjectBlock(project_form_input.value);
+    let projects = getProjects();
+    projects.push(new project(project_form_input.value));
+    setProjects(projects);
 });
 
 // Create and display an HTML block for a given project.
@@ -71,10 +77,24 @@ function createProjectBlock(project_name) {
     delete_project_btn.textContent = 'X';
 
     delete_project_btn.addEventListener('click', () => {
-        // Event listener code...
+        project_block.remove();
+        removeProjectFromStorage(project_name);
     });
 
     project_block.appendChild(project);
     project_block.appendChild(delete_project_btn);
     document.body.append(project_block);
+}
+
+// This function removes a project (with the given name) from 'projects' in local storage,
+// assuming 'projects' is an array of objects each with a 'name' property.
+function removeProjectFromStorage(project_name) {
+    let projects = getProjects();
+
+    let index = projects.map(function(e) { return e.name; }).indexOf(project_name);
+    if (index !== -1) {
+        projects.splice(index, 1);
+    }
+
+    setProjects(projects);
 }
