@@ -1,3 +1,20 @@
 #project-form {
     visibility: hidden;
 }
+
+.project-block {
+    display: flex;
+}
+
+.project {
+    margin-right: 1rem;
+}
+
+.delete-project-btn {
+    cursor: pointer;
+    visibility: hidden;
+}
+
+.project-block:hover .delete-project-btn {
+    visibility: visible;
+}
