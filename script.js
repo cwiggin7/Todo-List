@@ -38,10 +38,16 @@ function setProjects(projects) {
     localStorage.setItem('projects', projects);
 }
 
+// Add a project to 'projects' in local storage.
+function addProject(project) {
+    let projects = getProjects();
+    projects.push(project);
+    setProjects(projects);
+}
+
 // Check 'visited' in localStorage. If exists, user is returning; otherwise, they're a first-time visitor.
 if (localStorage.getItem('visited')) {
-    let projects = getProjects();
-    projects.forEach(project => {
+    getProjects().forEach(project => {
         createProjectBlock(project.name);
     });
 } else {
@@ -57,9 +63,7 @@ document.getElementById('create-project-btn').addEventListener('click', (event) 
     event.preventDefault();
     project_form.style.visibility = 'hidden';
     createProjectBlock(project_form_input.value);
-    let projects = getProjects();
-    projects.push(new project(project_form_input.value));
-    setProjects(projects);
+    addProject(new project(project_form_input.value));
 });
 
 // Create and display an HTML block for a given project.
