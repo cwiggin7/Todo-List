@@ -39,7 +39,7 @@ function saveProjectsToLocalStorage(projects) {
 function addProjectToLocalStorage(project) {
     let projects = getProjectsFromLocalStorage();
     projects.push(project);
-    setProjectsInLocalStorage(projects);
+    saveProjectsToLocalStorage(projects);
 }
 
 const visited = localStorage.getItem('visited');
@@ -49,7 +49,7 @@ if (visited) {
     });
 } else {
     const default_project = new Project('default');
-    setProjectsInLocalStorage([default_project]);
+    saveProjectsToLocalStorage([default_project]);
 
     localStorage.setItem('visited', 'true')
 }
@@ -62,36 +62,55 @@ document.getElementById('create-project-button').addEventListener('click', (even
     addProjectToLocalStorage(new Project(project_name_input.value));
 });
 
-document.querySelectorAll('.project-menu').forEach(project => {
-    project.addEventListener('click', () => {
-
-    });
-});
-
 function createProjectBlock(project_name) {
-    let project_box = document.createElement('div');
+    let project_block = document.createElement('div');
     let project_title = document.createElement('div');
     let project_menu = document.createElement('span');
-    let delete_project_button = document.createElement('div');
+    // let delete_project_button = document.createElement('div');
 
-    project_box.className = 'project-box';
+    project_block.className = 'project-box';
     project_title.className = 'project-title';
     project_menu.classList.add('project-menu', 'material-symbols-outlined');
-    delete_project_button.className = 'delete-project-button';
+    // delete_project_button.className = 'delete-project-button';
 
     project_title.textContent = project_name;
     project_menu.textContent = 'more_vert';
-    delete_project_button.textContent = 'X';
 
-    delete_project_button.addEventListener('click', () => {
-        project_box.remove();
-        removeProjectFromStorage(project_name);
+    // delete_project_button.textContent = 'X';
+
+    // delete_project_button.addEventListener('click', () => {
+    //     project_block.remove();
+    //     removeProjectFromStorage(project_name);
+    // });
+
+    project_block.appendChild(project_title);
+    project_block.appendChild(project_menu);
+    // project_block.appendChild(delete_project_button);
+    main_content.append(project_block);
+
+    let menuCreated = false;
+    let menu = null;
+
+    project_menu.addEventListener('click', () => {
+        if (!menuCreated) {
+            menu = document.createElement('div');
+            let delete_proj = document.createElement('div');
+            delete_proj.textContent = 'Delete';
+            menu.id = 'test';
+
+            delete_proj.addEventListener('click', () => {
+                console.log('This is a test.');
+            });
+
+            menu.append(delete_proj);
+            project_block.prepend(menu);
+
+            menuCreated = true;
+        } else {
+            menu.remove();
+            menuCreated = false;
+        }
     });
-
-    project_box.appendChild(project_title);
-    project_box.appendChild(project_menu);
-    project_box.appendChild(delete_project_button);
-    main_content.append(project_box);
 }
 
 function removeProjectFromStorage(project_name) {
@@ -102,5 +121,5 @@ function removeProjectFromStorage(project_name) {
         projects.splice(index, 1);
     }
 
-    setProjectsInLocalStorage(projects);
+    saveProjectsToLocalStorage(projects);
 }
