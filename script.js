@@ -1,8 +1,15 @@
+const main_content = document.getElementById('main-content');
 const project_form = document.getElementById('project-form');
-const project_form_input = document.getElementById('project-form-input');
+const project_name_input = document.getElementById('project-name-input');
 
-// A class representing a todo item
-class todo {
+class Project {
+    constructor(name) {
+        this.name = name;
+        this.todos = [];
+    }
+}
+
+class Todo {
     constructor(title, description, due_date) {
         this.title = title;
         this.description = description;
@@ -10,95 +17,90 @@ class todo {
     }
 }
 
-// A class representing a project
-class project {
-    constructor(name) {
-        this.name = name;
-        this.todos = [];
-    }
-}
-
-// Show the form that allows users to create a new project.
-function showProjectForm() {
+function openCreateProjectForm() { 
     project_form.style.visibility = 'visible';
-    project_form_input.value = '';
+    project_name_input.value = '';
 }
 
-// Get and return the 'projects' item from local storage.
-// 'projects' contains a reference of all the projects a user has created.
-function getProjects() {
+function getProjectsFromLocalStorage() {
     let projects = localStorage.getItem('projects');
-    return JSON.parse(projects);
+
+    if (projects) {
+        return JSON.parse(projects);
+    }
+
+    return [];
 }
 
-// Store user's projects in local storage under 'projects'. 
-// This allows retaining user's projects across multiple visits.
-function setProjects(projects) {
-    projects = JSON.stringify(projects);
-    localStorage.setItem('projects', projects);
+function saveProjectsToLocalStorage(projects) {
+    localStorage.setItem('projects', JSON.stringify(projects));
 }
 
-// Add a project to 'projects' in local storage.
-function addProject(project) {
-    let projects = getProjects();
+function addProjectToLocalStorage(project) {
+    let projects = getProjectsFromLocalStorage();
     projects.push(project);
-    setProjects(projects);
+    setProjectsInLocalStorage(projects);
 }
 
-// Check 'visited' in localStorage. If exists, user is returning; otherwise, they're a first-time visitor.
-if (localStorage.getItem('visited')) {
-    getProjects().forEach(project => {
+const visited = localStorage.getItem('visited');
+if (visited) {
+    getProjectsFromLocalStorage().forEach(project => {
         createProjectBlock(project.name);
     });
 } else {
-    // For first-time visitors, create a 'default' project and store in localStorage.
-    const default_project = new project('default');
-    setProjects([default_project]);
+    const default_project = new Project('default');
+    setProjectsInLocalStorage([default_project]);
 
-    // Mark user as no longer a first-time visitor.
     localStorage.setItem('visited', 'true')
 }
 
-document.getElementById('create-project-btn').addEventListener('click', (event) => {
+document.getElementById('create-project-button').addEventListener('click', (event) => {
     event.preventDefault();
     project_form.style.visibility = 'hidden';
-    createProjectBlock(project_form_input.value);
-    addProject(new project(project_form_input.value));
+
+    createProjectBlock(project_name_input.value);
+    addProjectToLocalStorage(new Project(project_name_input.value));
 });
 
-// Create and display an HTML block for a given project.
-// The block includes the project's name and a delete button.
+document.querySelectorAll('.project-menu').forEach(project => {
+    project.addEventListener('click', () => {
+
+    });
+});
+
 function createProjectBlock(project_name) {
-    let project_block = document.createElement('div');
-    let project = document.createElement('div');
-    let delete_project_btn = document.createElement('div');
+    let project_box = document.createElement('div');
+    let project_title = document.createElement('div');
+    let project_menu = document.createElement('span');
+    let delete_project_button = document.createElement('div');
 
-    project_block.className = 'project-block';
-    project.className = 'project';
-    delete_project_btn.className = 'delete-project-btn';
+    project_box.className = 'project-box';
+    project_title.className = 'project-title';
+    project_menu.classList.add('project-menu', 'material-symbols-outlined');
+    delete_project_button.className = 'delete-project-button';
 
-    project.textContent = project_name;
-    delete_project_btn.textContent = 'X';
+    project_title.textContent = project_name;
+    project_menu.textContent = 'more_vert';
+    delete_project_button.textContent = 'X';
 
-    delete_project_btn.addEventListener('click', () => {
-        project_block.remove();
+    delete_project_button.addEventListener('click', () => {
+        project_box.remove();
         removeProjectFromStorage(project_name);
     });
 
-    project_block.appendChild(project);
-    project_block.appendChild(delete_project_btn);
-    document.body.append(project_block);
+    project_box.appendChild(project_title);
+    project_box.appendChild(project_menu);
+    project_box.appendChild(delete_project_button);
+    main_content.append(project_box);
 }
 
-// This function removes a project (with the given name) from 'projects' in local storage,
-// assuming 'projects' is an array of objects each with a 'name' property.
 function removeProjectFromStorage(project_name) {
-    let projects = getProjects();
+    let projects = getProjectsFromLocalStorage();
 
     let index = projects.map(function(e) { return e.name; }).indexOf(project_name);
     if (index !== -1) {
         projects.splice(index, 1);
     }
 
-    setProjects(projects);
+    setProjectsInLocalStorage(projects);
 }
