@@ -1,4 +1,4 @@
-const main_content = document.getElementById('main-content');
+const main_content = document.getElementById('project-sidebar');
 const project_form = document.getElementById('project-form');
 const project_name_input = document.getElementById('project-name-input');
 
@@ -63,7 +63,7 @@ if (visited) {
 }
 
 // Event listener for when the 'Create Project' button is clicked
-document.getElementById('create-project-button').addEventListener('click', (event) => {
+document.getElementById('submit-project-button').addEventListener('click', (event) => {
     event.preventDefault();
     project_form.style.visibility = 'hidden';
 

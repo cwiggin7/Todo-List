@@ -20,19 +20,34 @@ body {
     font-family: sans-serif;
 }
 
+#page-grid {
+    display: grid;
+    grid-template-rows: 10vh 1fr;
+    grid-template-columns: 30vh 1fr;
+    height: 100vh;
+}
+
 #header {
+    grid-column: 1 / -1;
     background: #e5e5e5;
-    height: 10vh;
     display: flex;
     align-items: center;
 }
 
-#main-content {
-    height: 90vh;
-    padding: 1rem;
+#header h1 {
+    margin-left: 2%;
 }
 
-#new-project-button {
+#project-sidebar {
+    grid-column: 1;
+    margin: 1rem;
+}
+
+#project-info {
+    grid-column: 2;
+}
+
+#open-create-project-button {
     display: flex;
     align-items: center;
     border: none;
@@ -45,7 +60,7 @@ body {
     color: #374958;
 }
 
-#new-project-button div:first-of-type {
+#open-create-project-button div:first-of-type {
     margin-right: 30px;
     border: 2px solid #374958;
     border-radius: 50%;
@@ -54,7 +69,7 @@ body {
     font-weight: 500;
 }
 
-#new-project-button:hover {
+#open-create-project-button:hover {
     background-color: #e5e5e5;
 }
 
@@ -80,7 +95,7 @@ body {
 #test {
     background: #fff;
     width: fit-content;
-    padding: 20px;
+    padding: 13px 20px;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     border-radius: 3px;
     margin-left: 2%;

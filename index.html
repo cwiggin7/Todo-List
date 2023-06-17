@@ -10,18 +10,24 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 </head>
 <body>
-    <header id="header">
+    <div id="page-grid">
+        <div id="header">
+            <h1>Website Title</h1>
+        </div>
+        <div id="project-sidebar">
+            <button id="open-create-project-button" onclick="openCreateProjectForm()">
+                <div>+</div>
+                <div>Create Project</div>
+            </button>
 
-    </header>
-    <div id="main-content">
-        <button id="new-project-button" onclick="openCreateProjectForm()">
-            <div>+</div>
-            <div>New Project</div>
-        </button>
-        <div id="project-form">
-            <label for="project-name" class="form-label">Enter Project Name:</label>
-            <input type="text" id="project-name-input" name="project-name" required>
-            <button type="submit" id="create-project-button">Create Project</button>
+            <div id="project-form">
+                <label for="project-name" class="form-label">Enter Project Name:</label>
+                <input type="text" id="project-name-input" name="project-name" required>
+                <button type="submit" id="submit-project-button">Create Project</button>
+            </div>
+        </div>
+        <div id="project-info">
+
         </div>
     </div>
 </body>
