@@ -2,6 +2,7 @@ const main_content = document.getElementById('main-content');
 const project_form = document.getElementById('project-form');
 const project_name_input = document.getElementById('project-name-input');
 
+// A class representing a project
 class Project {
     constructor(name) {
         this.name = name;
@@ -9,6 +10,7 @@ class Project {
     }
 }
 
+// A class represnting a todo which belongs to a project
 class Todo {
     constructor(title, description, due_date) {
         this.title = title;
@@ -17,11 +19,13 @@ class Todo {
     }
 }
 
+// Opens the form that allows the user to create a new project
 function openCreateProjectForm() { 
     project_form.style.visibility = 'visible';
     project_name_input.value = '';
 }
 
+// Parses and returns the list of projects from local storage
 function getProjectsFromLocalStorage() {
     let projects = localStorage.getItem('projects');
 
@@ -32,16 +36,20 @@ function getProjectsFromLocalStorage() {
     return [];
 }
 
+// Saves a list of projects into local storage as 'projects'
 function saveProjectsToLocalStorage(projects) {
     localStorage.setItem('projects', JSON.stringify(projects));
 }
 
+// Adds a new project to the 'projects' item in local storage
 function addProjectToLocalStorage(project) {
     let projects = getProjectsFromLocalStorage();
     projects.push(project);
     saveProjectsToLocalStorage(projects);
 }
 
+// Runs when the page first loads
+// Creates a default project if user is first time visitor
 const visited = localStorage.getItem('visited');
 if (visited) {
     getProjectsFromLocalStorage().forEach(project => {
@@ -54,6 +62,7 @@ if (visited) {
     localStorage.setItem('visited', 'true')
 }
 
+// Event listener for when the 'Create Project' button is clicked
 document.getElementById('create-project-button').addEventListener('click', (event) => {
     event.preventDefault();
     project_form.style.visibility = 'hidden';
@@ -66,26 +75,16 @@ function createProjectBlock(project_name) {
     let project_block = document.createElement('div');
     let project_title = document.createElement('div');
     let project_menu = document.createElement('span');
-    // let delete_project_button = document.createElement('div');
 
     project_block.className = 'project-box';
     project_title.className = 'project-title';
     project_menu.classList.add('project-menu', 'material-symbols-outlined');
-    // delete_project_button.className = 'delete-project-button';
 
     project_title.textContent = project_name;
     project_menu.textContent = 'more_vert';
 
-    // delete_project_button.textContent = 'X';
-
-    // delete_project_button.addEventListener('click', () => {
-    //     project_block.remove();
-    //     removeProjectFromStorage(project_name);
-    // });
-
     project_block.appendChild(project_title);
     project_block.appendChild(project_menu);
-    // project_block.appendChild(delete_project_button);
     main_content.append(project_block);
 
     let menuCreated = false;
@@ -98,12 +97,13 @@ function createProjectBlock(project_name) {
             delete_proj.textContent = 'Delete';
             menu.id = 'test';
 
-            delete_proj.addEventListener('click', () => {
-                console.log('This is a test.');
+            menu.addEventListener('click', () => {
+                removeProjectFromStorage(project_name);
+                project_block.remove();
             });
 
             menu.append(delete_proj);
-            project_block.prepend(menu);
+            project_block.append(menu);
 
             menuCreated = true;
         } else {
@@ -113,6 +113,7 @@ function createProjectBlock(project_name) {
     });
 }
 
+// Removes project with the given name from local storage
 function removeProjectFromStorage(project_name) {
     let projects = getProjectsFromLocalStorage();
 
