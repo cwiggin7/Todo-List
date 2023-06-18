@@ -21,8 +21,12 @@ class Todo {
 
 // Opens the form that allows the user to create a new project
 function openCreateProjectForm() { 
-    project_form.style.visibility = 'visible';
-    project_name_input.value = '';
+    if (project_form.style.display === 'block') {
+        project_form.style.display = 'none';
+    } else {
+        project_form.style.display = 'block';
+        project_name_input.value = '';
+    }
 }
 
 // Parses and returns the list of projects from local storage
@@ -56,7 +60,7 @@ if (visited) {
         createProjectBlock(project.name);
     });
 } else {
-    const default_project = new Project('default');
+    const default_project = new Project('Default Project');
     saveProjectsToLocalStorage([default_project]);
 
     localStorage.setItem('visited', 'true')
@@ -65,7 +69,7 @@ if (visited) {
 // Event listener for when the 'Create Project' button is clicked
 document.getElementById('submit-project-button').addEventListener('click', (event) => {
     event.preventDefault();
-    project_form.style.visibility = 'hidden';
+    project_form.style.display = 'none';
 
     createProjectBlock(project_name_input.value);
     addProjectToLocalStorage(new Project(project_name_input.value));
@@ -87,30 +91,18 @@ function createProjectBlock(project_name) {
     project_block.appendChild(project_menu);
     main_content.append(project_block);
 
-    let menuCreated = false;
-    let menu = null;
+    menu = document.createElement('div');
+    let delete_proj = document.createElement('div');
+    delete_proj.textContent = 'Delete';
+    menu.id = 'project-menu-popup';
 
-    project_menu.addEventListener('click', () => {
-        if (!menuCreated) {
-            menu = document.createElement('div');
-            let delete_proj = document.createElement('div');
-            delete_proj.textContent = 'Delete';
-            menu.id = 'test';
-
-            menu.addEventListener('click', () => {
-                removeProjectFromStorage(project_name);
-                project_block.remove();
-            });
-
-            menu.append(delete_proj);
-            project_block.append(menu);
-
-            menuCreated = true;
-        } else {
-            menu.remove();
-            menuCreated = false;
-        }
+    menu.addEventListener('click', () => {
+        removeProjectFromStorage(project_name);
+        project_block.remove();
     });
+
+    menu.append(delete_proj);
+    project_block.append(menu);
 }
 
 // Removes project with the given name from local storage

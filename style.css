@@ -1,17 +1,11 @@
+/* Reset styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-.material-symbols-outlined {
-  font-variation-settings:
-  'FILL' 0,
-  'wght' 700,
-  'GRAD' 200,
-  'opsz' 48
-}
-
+/* Body styles */
 body {
     background-color: #f5f5f5;
     color: #222;
@@ -20,31 +14,35 @@ body {
     font-family: sans-serif;
 }
 
+/* Page Grid styles */
 #page-grid {
     display: grid;
-    grid-template-rows: 10vh 1fr;
-    grid-template-columns: 30vh 1fr;
+    grid-template-rows: 60px 1fr;
+    grid-template-columns: 25% 1fr;
     height: 100vh;
 }
 
+/* Header styles */
 #header {
     grid-column: 1 / -1;
     background: #e5e5e5;
     display: flex;
     align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 #header h1 {
-    margin-left: 2%;
+    font-size: 24px;
 }
 
+/* Project Sidebar styles */
 #project-sidebar {
     grid-column: 1;
-    margin: 1rem;
-}
-
-#project-info {
-    grid-column: 2;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    min-width: 250px;
 }
 
 #open-create-project-button {
@@ -54,54 +52,100 @@ body {
     background: none;
     cursor: pointer;
     font-size: 20px;
-    white-space: nowrap;
-    width: fit-content;
     padding: 10px;
     color: #374958;
 }
 
 #open-create-project-button div:first-of-type {
-    margin-right: 30px;
+    margin-right: 10px;
     border: 2px solid #374958;
     border-radius: 50%;
     width: 25px;
     height: 25px;
     font-weight: 500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #open-create-project-button:hover {
-    background-color: #e5e5e5;
+    background-color: #f5f5f5;
 }
 
 #project-form {
-    visibility: hidden;
+    display: none;
+    margin-top: 20px;
+}
+
+.form-label {
+    letter-spacing: 1px;
+    font-weight: 600;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ccc;
+    transition: 0.3s;
+    outline: none;
+    font-size: 16px;
+}
+
+input[type="text"]:focus,
+#submit-project-button:hover {
+    border-color: #555;
+}
+
+#submit-project-button {
+    font-size: 16px;
+    padding: 10px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-weight: 600;
+    background-color: #374958;
+    color: #fff;
+    border: none;
+    transition: 0.3s;
+}
+
+#submit-project-button:hover {
+    background-color: #263541;
+}
+
+/* Project Info styles */
+#project-info {
+    grid-column: 2;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .project-box {
     display: flex;
     align-items: center;
-    border: 2px solid red;
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 .project-title {
-    font-size: 20px;
+    font-size: 18px;
+    pointer-events: none;
 }
 
 .project-menu {
-    cursor: pointer;
+    margin-left: 5px;
+    cursor: default;
 }
 
-#test {
+#project-menu-popup {
+    display: none;
     background: #fff;
-    width: fit-content;
-    padding: 13px 20px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-    border-radius: 3px;
-    margin-left: 2%;
+    padding: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
     cursor: pointer;
 }
 
-#test div {
-    letter-spacing: 1px;
+.project-box:hover #project-menu-popup {
+    display: block;
 }
